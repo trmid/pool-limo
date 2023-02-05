@@ -48,7 +48,7 @@
 </html>
 ```
 
-- You can edit the white text that is in-between the tags. Example:
+- You can edit the text that is in-between the tags. Example:
 ```html
 <some-tag>Your text here.</some-tag>
 ```

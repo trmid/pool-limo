@@ -29,11 +29,25 @@ footer {
   color: #888;
 }
 
-iframe {
-  border: 1px solid #888;
+#flow-chart-wrapper {
+  overflow: hidden;
   border-radius: 1rem;
+  border: 1px solid #888;
+  max-width: fit-content;
+}
+
+#flow-chart {
+  width: 500px;
+  height: 500px;
+  max-width: calc(100vw - 2rem - 2px);
+  overflow: auto;
   box-sizing: border-box;
-  max-width: calc(100vw - 2rem);
+  background-color: #fff;
+  padding: 1rem 0;
+}
+
+#flow-chart > img {
+  max-width: 100%;
 }
 
 li {

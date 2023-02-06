@@ -73,9 +73,10 @@ window.addEventListener("load", async () => {
               const fieldsStr = decoder.decode(bytes.buffer);
               const fields = JSON.parse(fieldsStr);
               if(fields.content) {
-                const [,,rootHash] = fields.content.match(/^(ipfs\:\/\/|\/ipfs\/)([a-zA-Z0-9]+)/);
+                let [,,rootHash] = fields.content.match(/^(ipfs\:\/\/|\/ipfs\/)([a-zA-Z0-9]+)/);
                 if(rootHash) {
-                  location.assign(`https://${rootHash}.ipfs.${rootDomain}`);
+                  const v1CID = Multiformats.CID.parse(rootHash).toV1().toString();
+                  location.assign(`https://${v1CID}.ipfs.${rootDomain}`);
                 } else {
                   log(`unsupported content field: ${fields.content}`, "error");
                   renderDefaultContent(subdomain);

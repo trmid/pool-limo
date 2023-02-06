@@ -6,29 +6,29 @@ self.addEventListener("install", event => {
   }
 
   // Delete any non-ipfs cache
-	event.waitUntil(
-		caches.keys().then(keys => 
-			Promise.all(
-				keys.map(key => {
-					if (!['ipfs'].includes(key)) {
-						return caches.delete(key);
-					}
-				})
-			)
-		)
-	);
+  event.waitUntil(
+    caches.keys().then(keys => 
+      Promise.all(
+        keys.map(key => {
+          if (!['ipfs'].includes(key)) {
+            return caches.delete(key);
+          }
+        })
+      )
+    )
+  );
   
-	// Kick out the old service worker
-	self.skipWaiting();
+  // Kick out the old service worker
+  self.skipWaiting();
 
   // Resolve root before completing install
-	event.waitUntil(
-		self.fetch('/')
-	);
+  event.waitUntil(
+    self.fetch('/')
+  );
 });
 
 // Promise that waits # of seconds before resolving:
-function wait(sec) {
+const wait = (sec) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
@@ -38,7 +38,7 @@ function wait(sec) {
 
 // Fetch anything from our own origin from IPFS instead. Serve other requests normally.
 self.addEventListener("fetch", event => {
-	const url = new URL(event.request.url);
+  const url = new URL(event.request.url);
   switch (url.origin) {
     // Anything from our own origin gets served from the ipfs root:
     case location.origin: {
@@ -105,7 +105,7 @@ const publicGateways = [
   'https://ipfs.io',
   'https://dweb.link',
 ];
-function gatewayURL(path) {
+const gatewayURL = (path) => {
   const url = publicGateways[gatewayIndex++] + path;
   if(gatewayIndex >= publicGateways.length) gatewayIndex = 0;
   return url;
@@ -116,9 +116,7 @@ const fetchIPFSContent = async ({ event, path }) => {
   // Obtains IPFS instance
   const ipfs = await ipfsClient();
   try {
-		console.log(path);
     const stat = await ipfs.files.stat(path);
-		console.log(stat);
     switch (stat.type) {
       case 'file': {
         return await fetchIPFSFile(path)
@@ -134,9 +132,9 @@ const fetchIPFSContent = async ({ event, path }) => {
           return stat.type === 'file'
             ? fetchIPFSFile(index)
             : new Response("cannot fetch directory", {
-							statusText: "cannot fetch directory",
-							status: 500
-						})
+              statusText: "cannot fetch directory",
+              status: 500
+            })
         }
       }
       default: {
@@ -146,35 +144,35 @@ const fetchIPFSContent = async ({ event, path }) => {
     }
   } catch (err) {
     console.error(err)
-		if(err && err.message) {
+    if(err && err.message) {
 
-			// If such link does not exists respond with 404
-			if (err.message.startsWith('no link named') || err.message.includes('does not exist')) {
-				return new Response(err.message, {
-					statusText: err.message,
-					status: 404
-				})
-			}
+      // If such link does not exists respond with 404
+      if (err.message.startsWith('no link named') || err.message.includes('does not exist')) {
+        return new Response(err.message, {
+          statusText: err.message,
+          status: 404
+        })
+      }
 
-			// If problem with CID respond with 400
-			if (err.message.includes('invalid')) {
-				return new Response(err.message, {
-					statusText: err.message,
-					status: 400
-				})
-			}
+      // If problem with CID respond with 400
+      if (err.message.includes('invalid')) {
+        return new Response(err.message, {
+          statusText: err.message,
+          status: 400
+        })
+      }
 
-			// Otherwise respond with 500
-			return new Response(err.message, {
-				statusText: err.message,
-				status: 500
-			})
-		}
+      // Otherwise respond with 500
+      return new Response(err.message, {
+        statusText: err.message,
+        status: 500
+      })
+    }
   }
 }
 
 const fetchIPFSFile = async (path) => {
-	const ipfs = await ipfsClient();
+  const ipfs = await ipfsClient();
   const content = ipfs.cat(path);
   const body = toReadableStream(content);
   // Note: Browsers by default perform content sniffing to do a content type

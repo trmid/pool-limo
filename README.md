@@ -1,4 +1,4 @@
-# pool.limo
+![pool.limo logo](./docs/img/banner.png)
 
 ## About
 

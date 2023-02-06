@@ -2,7 +2,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: monospace;
 }
 
 main,
@@ -27,4 +27,15 @@ header>img {
 footer {
   margin-top: 2rem;
   color: #888;
+}
+
+iframe {
+  border: 1px solid #888;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  max-width: calc(100vw - 2rem);
+}
+
+li {
+  margin-bottom: 0.25rem;
 }

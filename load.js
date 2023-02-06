@@ -83,7 +83,12 @@ window.addEventListener("load", async () => {
                 }
               } else {
                 log("missing content field", "error");
-                renderDefaultContent(subdomain);
+                if(fields.url) {
+                  log("redirecting to url");
+                  location.assign(fields.url);
+                } else {
+                  renderDefaultContent(subdomain);
+                }
               }
             }
           } catch(err) {

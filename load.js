@@ -84,7 +84,7 @@ window.addEventListener("load", async () => {
               } else {
                 log("missing content field", "error");
                 if(fields.url) {
-                  log("redirecting to url");
+                  log("redirecting to url...");
                   location.assign(fields.url);
                 } else {
                   renderDefaultContent(subdomain);

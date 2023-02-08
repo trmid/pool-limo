@@ -81,6 +81,38 @@ const proxyResponse = async (request) => {
 
       // Fetch resolution:
       fields = await resolveNameFields(name);
+      if(fields.content) {
+
+        // Check if IPNS:
+        const match = fields.content.match(/^(ipns\:\/\/|\/ipns\/)([a-zA-Z0-9\.\-\_]+)/);
+        if(match) {
+
+          // Resolve IPFS CID:
+          let resolved = "";
+          try {
+            
+            // TODO: replace this fetch call when new js library is released
+            const res = await fetch(`https://ipfs.io/api/v0/resolve?arg=${encodeURIComponent(`/ipns/${match[2]}`)}&recursive=true&dht-timeout=0`);
+            if(res.status >= 200 && res.status < 400) {
+              const json = await res.json();
+              const path = json["Path"] ?? "";
+              if(path.startsWith('/ipfs/')) {
+                resolved = path;
+              } else {
+                throw new Error(`expected ipfs path, got: ${path}`);
+              }
+            } else {
+              return new Response(`failed to resolve IPNS path: ${fields.content}`, { status: res.status });
+            }
+          } catch(err) {
+            console.warn(err);
+            return new Response(`failed to resolve IPNS path: ${fields.content}`, { status: 500 });
+          }
+
+          // Replace content field if resolved:
+          if(resolved) fields.content = resolved;
+        }
+      }
       response = new Response(JSON.stringify(fields), { status: 200, headers: { "Content-Type": "application/json" } });
 
       // Delete old PNS cache entries:

@@ -8,15 +8,15 @@
 
 `pool.limo` is inspired by ENS gateways like [eth.limo](https://eth.limo). However, pool.limo takes a different approach to bring operational costs to a minimum. If you're used to using `eth.limo`, here are some of the differences to expect:
 
-|                    | pool.limo          | eth.limo           |
-|--------------------|--------------------|--------------------|
-| Hosting            | static             | dynamic            |
-| Name Resolution    | client-side        | server-side        |
-| Content Resolution | IPFS               | IPFS/IPNS/Skynet   |
-| SEO Optimized      | no                 | partial            |
-| Requires JavaScript| yes                | no                 |
-| Service Workers    | no support         | full support       |
-| Data Collection    | none               | caches request     |
+|                    | pool.limo                | eth.limo           |
+|--------------------|--------------------------|--------------------|
+| Hosting            | static                   | dynamic            |
+| Name Resolution    | client-side              | server-side        |
+| Content Resolution | IPFS/(IPNS gateway only) | IPFS/IPNS/Skynet   |
+| SEO Optimized      | no                       | partial            |
+| Requires JavaScript| yes                      | no                 |
+| Service Workers    | no support               | full support       |
+| Data Collection    | none                     | caches request     |
 
 *If there is more demand (and funding) for the advanced features that other gateways offer, they may be added to the pool.limo service in the future.*
 

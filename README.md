@@ -1,4 +1,4 @@
-![pool.limo logo](./docs/img/banner.png)
+![pool.limo logo](https://pool.limo/img/banner.png)
 
 ## About
 
@@ -10,12 +10,13 @@
 
 |                    | pool.limo          | eth.limo           |
 |--------------------|--------------------|--------------------|
-| Hosting            | static             | server/cloud       |
+| Hosting            | static             | dynamic            |
 | Name Resolution    | client-side        | server-side        |
-| Content Resolution | IPFS               | IPFS/IPNS/Skeynet  |
-| SEO Optimized      | none               | partial            |
+| Content Resolution | IPFS               | IPFS/IPNS/Skynet   |
+| SEO Optimized      | no                 | partial            |
 | Requires JavaScript| yes                | no                 |
-| Service Workers    | partial support    | full support       |
+| Service Workers    | no support         | full support       |
+| Data Collection    | none               | caches request     |
 
 *If there is more demand (and funding) for the advanced features that other gateways offer, they may be added to the pool.limo service in the future.*
 
@@ -74,3 +75,4 @@
 
 - Go to `<your name>.pool.limo` to view your new decentralized `.pool` site!
 - You can update your site at any time by pinning your new site files to IPFS and updating the content CID of your domain.
+    - Note: It may take up to 10 minutes for changes you make to be updated on your pool.limo site.

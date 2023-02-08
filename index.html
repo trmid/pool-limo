@@ -9,11 +9,76 @@
   <meta name="color-scheme" content="dark light">
 
   <!-- Style -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: sans-serif;
+    }
 
-  <!-- Load script -->
-  <script src="load.js"></script>
-  <script src="multiformats.min.js"></script>
+    main {
+      padding: 1rem;
+      margin: 0 auto;
+      max-width: 1024px;
+    }
+
+    #message {
+      opacity: 0.6;
+    }
+  </style>
+
+  <!-- Script -->
+  <script>
+    // On page load:
+    window.addEventListener("load", async () => {
+
+      // Get message element:
+      const message = document.getElementById("message");
+      const log = (msg, type) => {
+        switch (type) {
+          case "error": {
+            message.innerHTML = `error: ${msg}`;
+            console.error(msg);
+            break;
+          }
+          case "warning": {
+            message.innerHTML = `warning: ${msg}`;
+            console.warn(msg);
+            break;
+          }
+          default: {
+            message.innerHTML = msg;
+            console.log(msg);
+          }
+        }
+      };
+
+      // Install micro-app:
+      log("resolving name...");
+      const name = location.hostname.split('.').slice(-3)[0];
+      if (name) {
+        if ("serviceWorker" in navigator) {
+
+          // Register sw:
+          try {
+            await navigator.serviceWorker.register("/-pool-limo-sw.js");
+            navigator.serviceWorker.ready.then(() => location.reload());
+          } catch (err) {
+            console.error(err);
+          }
+        } else {
+
+          // Redirect to default name page:
+          log("service worker not supported, redirecting...", "error");
+          location.assign(`https://names.pooly.me/#/domain/10/pool/${name}`);
+        }
+      } else {
+        log("invalid domain", "error");
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -25,7 +90,6 @@
       <p>
         Please enable JavaScript and reload the page.
       </p>
-      <img src="img/chibi-birb.png" alt="chibi birb is waiting for you to enable javascript in your browser">
     </noscript>
 
     <!-- Loading message -->
